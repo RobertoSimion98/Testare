@@ -1,0 +1,76 @@
+1	int ok=0,count_arg=0,fail=0;
+2	int nr_harti = Integer.parseInt(arg[count_arg]);
+3	count_arg++;
+4	if(nr_harti<1 || nr_harti>5){
+5	    System.out.println("Numarul de harti trebuie sa fie intre [1,5]");
+6	    return;
+7	}
+8	for (int t = 0; t < nr_harti; t ++){
+9	    fail=0;
+10	    if(arg[count_arg]==null){
+11	        return;
+12	    }
+13	    int nr_stele = Integer.parseInt(arg[count_arg]);
+14	    count_arg++;
+15	    if(nr_stele<1 || nr_stele>400){
+16	        System.out.println("Numarul de stele trebuie sa fie intre [1,400]");
+17	        continue;
+18	    }
+19	    int[] x = new int[nr_stele];
+20	    int[] y = new int[nr_stele];
+21	    ok=0;
+22	    HashMap<Pair, Integer> coordonate = new HashMap<>();
+23	    for (int i = 0; i < nr_stele; i ++){
+24	        x[i]=Integer.parseInt(arg[count_arg]);
+25	        count_arg++;
+26	        y[i]=Integer.parseInt(arg[count_arg]);
+27	        count_arg++;
+28	        if(x[i]<0 || x[i]>109){
+29	            System.out.println("Coordonatele stelelor trebuie sa fie intre [0,109]");
+30	            fail=1;
+31	            continue;
+32	        }
+33	        if(y[i]<0 || y[i]>109){
+34	            System.out.println("Coordonatele stelelor trebuie sa fie intre [0,109]");
+35	            fail=1;
+36	            continue;
+37	        }
+38	        Pair p = new Pair (x[i],y[i]);
+39	        if (coordonate.containsKey(p)) {
+40	            coordonate.put(p, coordonate.get(p) + 1);
+41	        }
+42	        else {
+43	            coordonate.put(p, 1);
+44	        }
+45	        if(coordonate.get(p)>1){
+46	            System.out.println("Nu pot exista două stele cu aceleaşi coordonate: " +p);
+47	            fail=1;
+48	            continue;
+49	        }
+50	    }
+51	    if(fail==1){
+52	        continue;
+53	    }
+54	    HashMap<Pair, Integer> v = new HashMap<>();
+55	    for (int i = 0; i < nr_stele-1; i ++){
+56	        for (int j = i + 1; j < nr_stele; j ++){
+57	            Pair p = new Pair (Math.abs (x [j] - x [i]), Math.abs (y [j] - y [i]));
+58	            if (v.containsKey(p)) {
+59	                v.put(p, v.get(p) + 1);
+60	            }
+61	            else {
+62	                v.put(p, 1);
+63	            }
+64	            if(v.get(p)>=3){
+65	                ok = 1;
+66	                break;
+67	            }
+68	        }
+69	        if (ok == 1)break;
+70	    }
+71	    if (ok == 1)
+72	        System.out.println("DA");
+73	    else
+74	        System.out.println("NU");
+75	}
+76
